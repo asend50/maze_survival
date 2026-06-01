@@ -58,7 +58,7 @@ pub async fn run(junoscary_value: i32, haruscary_value: i32, louisscary_value :i
     loop {
         clear_background(backgroundred);
 
-        lbl_score.set_text(&format!("Score: {}", score_value));
+        lbl_score.set_text(&format!("Wins: {}", score_value));
         lbl_streak.set_text(&format!("Streak: {}", current_streak));
 
         if junoscary_value == 1 {
