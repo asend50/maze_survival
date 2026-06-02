@@ -13,6 +13,7 @@ use crate::modules::grid::draw_grid;
 --------------------------------------------
 */
 // Add modules below
+pub mod preload_image;
 pub mod still_image;
 pub mod collision;
 pub mod grid;

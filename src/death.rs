@@ -1,8 +1,9 @@
 use macroquad::prelude::*;
 use crate::modules::still_image::StillImage;
 use crate::modules::label::Label;
+use crate::modules::preload_image::TextureManager;
 
-pub async fn run(junoscary_value: i32, haruscary_value: i32, louisscary_value :i32, score_value: i32, current_streak: i32) -> (String, i32, i32, i32, i32, i32)  {
+pub async fn run(junoscary_value: i32, haruscary_value: i32, louisscary_value :i32, score_value: i32, current_streak: i32, highscore_value: i32, tm: TextureManager) -> (String, i32, i32, i32, i32, i32, i32, TextureManager)  {
 
     let borderred = Color::from_hex(0x4D0000);
     let textred = Color::from_hex(0xD40000);
@@ -23,6 +24,10 @@ pub async fn run(junoscary_value: i32, haruscary_value: i32, louisscary_value :i
     let mut lbl_streak = Label::new("", 705.0, 235.0, 55);
     lbl_streak.with_colors(textred, Some(borderred));
     lbl_streak.with_round(10.0);
+
+    let mut lbl_highscore = Label::new("", 560.0, 100.0, 55);
+    lbl_highscore.with_colors(textred, Some(borderred));
+    lbl_highscore.with_round(10.0);
 
     let mut img_junoscary = StillImage::new(
         "",
@@ -60,6 +65,7 @@ pub async fn run(junoscary_value: i32, haruscary_value: i32, louisscary_value :i
 
         lbl_score.set_text(&format!("Wins: {}", score_value));
         lbl_streak.set_text(&format!("Streak: {}", current_streak));
+        lbl_highscore.set_text(format!("Highscore: {}", highscore_value));
 
         if junoscary_value == 1 {
             img_junoscary.set_image("assets/junoscary.png").await;
@@ -85,7 +91,7 @@ pub async fn run(junoscary_value: i32, haruscary_value: i32, louisscary_value :i
             let junoscary_value = 0;
             let haruscary_value = 0;
             let louisscary_value = 0;
-            return ("menu".to_string(),junoscary_value, haruscary_value, louisscary_value, score_value, current_streak);
+            return ("menu".to_string(),junoscary_value, haruscary_value, louisscary_value, score_value, current_streak, highscore_value, tm);
         }
 
         img_junoscary.draw();
@@ -95,6 +101,7 @@ pub async fn run(junoscary_value: i32, haruscary_value: i32, louisscary_value :i
         lbl_streak.draw();
         lbl_death.draw();
         lbl_restart.draw();
+        lbl_highscore.draw();
         
 
         next_frame().await;

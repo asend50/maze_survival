@@ -3,13 +3,15 @@ use crate::modules::still_image::StillImage;
 use crate::modules::collision::check_collision;
 use crate::modules::label::Label;
 use std::time::Duration;
+use crate::modules::preload_image::TextureManager;
 
-pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, streak: i32) -> (String, i32, i32, i32, i32, i32) {
+pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, streak: i32, highscore: i32, tm: TextureManager) -> (String, i32, i32, i32, i32, i32, i32, TextureManager) {
     let mut junoscary_value = junoscary;
     let mut haruscary_value = haruscary;
     let mut louisscary_value = louisscary;
     let mut score_value = score;
     let mut current_streak = streak;
+    let mut highscore_value = highscore;
 
         let img_background = StillImage::new(
         "assets/mazebackground.png",
@@ -22,8 +24,8 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
     )
     .await;
 
-    let img_legoshi = StillImage::new(
-        "assets/legoshisprite.png",
+    let mut img_legoshi = StillImage::new(
+        "assets/legoshispriteright.png",
         110.0, // width
         130.0, // height
         550.0, // x position
@@ -99,9 +101,15 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
         // Keyboard input
         if is_key_down(KeyCode::D) || is_key_down(KeyCode::Right) {
             move_dir.x += 4.0;
+
+        legoshi.set_preload(tm.get_preload("assets/legoshispriteright.png").unwrap());
+        
         }
         if is_key_down(KeyCode::A) || is_key_down(KeyCode::Left) {
             move_dir.x -= 4.0;
+
+        legoshi.set_preload(tm.get_preload("assets/legoshispriteleft.png").unwrap());
+        
         }
         if is_key_down(KeyCode::S) || is_key_down(KeyCode::Down) {
             move_dir.y += 4.0;
@@ -318,14 +326,14 @@ let mut louis_pos = louis.pos();
         if check_collision(&legoshi, &juno, 1) {
             let junoscary_value = 1;
             let current_streak = 0;
-            return ("death".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak);
+            return ("death".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak, highscore_value, tm);
 
             }
 
         if check_collision(&legoshi, &haru, 1) {
             let haruscary_value = 1;
             let current_streak = 0;
-            return ("death".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak);
+            return ("death".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak, highscore_value, tm);
 
 
             }
@@ -333,7 +341,11 @@ let mut louis_pos = louis.pos();
         if check_collision(&legoshi, &louis, 1) {
             let louisscary_value = 1;
             let current_streak = 0;
-            return ("death".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak);
+
+            if highscore_value < score_value {
+                highscore_value = score_value;
+            }
+            return ("death".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak, highscore_value, tm);
 
 
             }
@@ -344,7 +356,8 @@ let elapsed_time = start_time.elapsed();
         if remaining_time.as_secs() == 0 {
             score_value += 1;
             current_streak += 1;
-            return ("win".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak);
+            highscore_value += 1;
+            return ("win".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak, highscore_value, tm);
         }
 
         let seconds = remaining_time.as_secs() % 60;

@@ -1,7 +1,8 @@
 use macroquad::prelude::*;
 use crate::modules::label::Label;
+use crate::modules::preload_image::TextureManager;
 
-pub async fn run(junoscary: i32, haruscary: i32, louisscary :i32, score: i32, streak: i32) -> (String, i32, i32, i32, i32, i32) {
+pub async fn run(junoscary: i32, haruscary: i32, louisscary :i32, score: i32, streak: i32, highscore: i32, tm: TextureManager) -> (String, i32, i32, i32, i32, i32, i32, TextureManager) {
 
 let borderblue = Color::from_hex(0x8FDFFF);
 let textblue = Color::from_hex(0x005275);
@@ -29,13 +30,18 @@ let backgroundblue = Color::from_hex(0xCCF4FF);
     lbl_streak.with_colors(textblue, Some(borderblue));
     lbl_streak.with_round(10.0);
 
+    let mut lbl_highscore = Label::new("", 560.0, 100.0, 55);
+    lbl_highscore.with_colors(textblue, Some(borderblue));
+    lbl_highscore.with_round(10.0);
+
     loop {
         clear_background(backgroundblue);
         lbl_score.set_text(format!("Wins: {}", score));
         lbl_streak.set_text(format!("Streak: {}", streak));
+        lbl_highscore.set_text(format!("Highscore: {}", highscore));
 
          if is_key_pressed(KeyCode::Space) {
-            return ("game".to_string(), junoscary, haruscary, louisscary, score, streak);
+            return ("game".to_string(), junoscary, haruscary, louisscary, score, streak, highscore, tm);
         }
 
         lbl_menu.draw();
@@ -43,6 +49,7 @@ let backgroundblue = Color::from_hex(0xCCF4FF);
         lbl_start.draw();
         lbl_score.draw();
         lbl_streak.draw();
+        lbl_highscore.draw();
         next_frame().await;
     }
 }

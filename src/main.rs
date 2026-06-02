@@ -5,13 +5,13 @@ Program Details: <The purpose of this program is to >
 */
 
 mod modules;
-
 mod menu;
 mod game;
 mod win;
 mod death;
-
 use macroquad::prelude::*;
+use crate::modules::preload_image::TextureManager;
+use crate::modules::preload_image::LoadingScreenOptions; // If you want to customize the loading screen
 
 fn window_conf() -> Conf {
     Conf {
@@ -28,6 +28,10 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 async fn main() {
+    let mut tm = TextureManager::new();
+   // tm.preload_all(&["assets/mazebackground.png", "assets/legoshispriteright.png", "assets/legoshispriteright.png, assets/junosprite.png", "assets/junoscary.png", "assets/harusprite.png", "assets/haruscary.png", "assets/louissprite.png", "assets/louisscary.png"]).await;
+    tm.preload_with_loading_screen(&["assets/mazebackground.png", "assets/legoshispriteleft.png", "assets/legoshispriteright.png", "assets/legoshisprite.png", "assets/junosprite.png", "assets/junoscary.png", "assets/harusprite.png", "assets/haruscary.png", "assets/louissprite.png", "assets/louisscary.png"], None).await;
+
     let mut current_screen = "menu".to_string();
     let mut last_switch = get_time() - 0.02;
     let mut junoscary = 0;
@@ -35,14 +39,15 @@ async fn main() {
     let mut louisscary = 0;
     let mut score = 0;
     let mut streak = 0;
+    let mut highscore = 0;
 
     loop {
           if get_time() - last_switch > 0.01 {
-    (current_screen, junoscary, haruscary, louisscary, score, streak) = match current_screen.as_str() {
-        "menu" => menu::run(junoscary, haruscary, louisscary, score, streak).await,
-        "game" => game::run(junoscary, haruscary, louisscary, score, streak).await,
-        "win" => win::run(junoscary, haruscary, louisscary, score, streak).await,
-        "death" => death::run(junoscary, haruscary, louisscary, score, streak).await,
+    (current_screen, junoscary, haruscary, louisscary, score, streak, highscore, tm) = match current_screen.as_str() {
+        "menu" => menu::run(junoscary, haruscary, louisscary, score, streak, highscore, tm).await,
+        "game" => game::run(junoscary, haruscary, louisscary, score, streak, highscore, tm).await,
+        "win" => win::run(junoscary, haruscary, louisscary, score, streak, highscore, tm).await,
+        "death" => death::run(junoscary, haruscary, louisscary, score, streak, highscore, tm).await,
         _ => break,
     };
     last_switch = get_time();
