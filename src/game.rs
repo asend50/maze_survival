@@ -6,9 +6,9 @@ use std::time::Duration;
 use crate::modules::preload_image::TextureManager;
 
 pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, streak: i32, highscore: i32, tm: TextureManager) -> (String, i32, i32, i32, i32, i32, i32, TextureManager) {
-    let mut junoscary_value = junoscary;
-    let mut haruscary_value = haruscary;
-    let mut louisscary_value = louisscary;
+    let junoscary_value = junoscary;
+    let haruscary_value = haruscary;
+    let louisscary_value = louisscary;
     let mut score_value = score;
     let mut current_streak = streak;
     let mut highscore_value = highscore;
@@ -24,7 +24,7 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
     )
     .await;
 
-    let mut img_legoshi = StillImage::new(
+    let img_legoshi = StillImage::new(
         "assets/legoshispriteright.png",
         110.0, // width
         130.0, // height
@@ -36,7 +36,7 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
     .await;
 
     let img_juno = StillImage::new(
-        "assets/junosprite.png",
+        "assets/junospriteright.png",
         110.0, // width
         130.0, // height
         490.0, // x position
@@ -47,7 +47,7 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
     .await;
 
     let img_haru= StillImage::new(
-        "assets/harusprite.png",
+        "assets/haruspriteleft.png",
         110.0, // width
         130.0, // height
         850.0, // x position
@@ -58,8 +58,8 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
     .await;
 
     let img_louis= StillImage::new(
-        "assets/louissprite.png",
-        110.0, // width
+        "assets/louisspriteleft.png",
+        100.0, // width
         130.0, // height
         1080.0, // x position
         1050.0,  // y position
@@ -167,6 +167,7 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
         if juno_pos.x == 1080.0 && juno_pos.y == 1050.0 {
             junox = -5.0;
             junoy = 0.0;
+            juno.set_preload(tm.get_preload("assets/junospriteleft.png").unwrap());
         }
 
         if juno_pos.x == 250.0 && juno_pos.y == 1050.0 {
@@ -177,6 +178,7 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
         if juno_pos.x == 25.0 && juno_pos.y <= 1000.0 {
             junox = 0.0;
             junoy = -5.0;
+            juno.set_preload(tm.get_preload("assets/junospriteright.png").unwrap());
         }
 
         if juno_pos.x == 25.0 && juno_pos.y == 20.0 {
@@ -192,6 +194,7 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
         if juno_pos.x == 450.0 && juno_pos.y == 250.0 {
             junox = -5.0;
             junoy = 0.0;
+            juno.set_preload(tm.get_preload("assets/junospriteleft.png").unwrap());
         }
 
         if juno_pos.x == 250.0 && juno_pos.y == 250.0 {
@@ -202,6 +205,7 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
         if juno_pos.x == 250.0 && juno_pos.y == 725.0 {
             junox = 5.0;
             junoy = 5.0;
+            juno.set_preload(tm.get_preload("assets/junospriteright.png").unwrap());
         }
 
         if juno_pos.x == 490.0 && juno_pos.y <= 1000.0 && juno_pos.y >= 725.0 {
@@ -231,6 +235,7 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
         if haru_pos.x == 525.0 && haru_pos.y == 800.0 {
             harux = 0.0;
             haruy = -5.0;
+            haru.set_preload(tm.get_preload("assets/haruspriteright.png").unwrap());
         }
 
         if haru_pos.x == 525.0 && haru_pos.y == 460.0 {
@@ -241,6 +246,7 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
         if haru_pos.x == 850.0 && haru_pos.y == 460.0 {
             harux = 0.0;
             haruy = 5.0;
+            haru.set_preload(tm.get_preload("assets/haruspriteleft.png").unwrap());
         }
 
 
@@ -270,6 +276,7 @@ let mut louis_pos = louis.pos();
         if louis_pos.x == 1080.0 && louis_pos.y == 1050.0 {
             louisx = -5.0;
             louisy = 0.0;
+            louis.set_preload(tm.get_preload("assets/louisspriteleft.png").unwrap());
         }
 
         if louis_pos.x == 250.0 && louis_pos.y == 1050.0 {
@@ -280,6 +287,7 @@ let mut louis_pos = louis.pos();
         if louis_pos.x == 25.0 && louis_pos.y <= 1000.0 {
             louisx = 0.0;
             louisy = -5.0;
+            louis.set_preload(tm.get_preload("assets/louisspriteright.png").unwrap());
         }
 
         if louis_pos.x == 25.0 && louis_pos.y == 20.0 {
@@ -295,6 +303,7 @@ let mut louis_pos = louis.pos();
         if louis_pos.x == 450.0 && louis_pos.y == 250.0 {
             louisx = -5.0;
             louisy = 0.0;
+            louis.set_preload(tm.get_preload("assets/louisspriteleft.png").unwrap());
         }
 
         if louis_pos.x == 250.0 && louis_pos.y == 250.0 {
@@ -305,6 +314,7 @@ let mut louis_pos = louis.pos();
         if louis_pos.x == 250.0 && louis_pos.y == 725.0 {
             louisx = 5.0;
             louisy = 5.0;
+            louis.set_preload(tm.get_preload("assets/louisspriteright.png").unwrap());
         }
 
         if louis_pos.x == 490.0 && louis_pos.y <= 1000.0 && louis_pos.y >= 725.0 {
@@ -356,7 +366,9 @@ let elapsed_time = start_time.elapsed();
         if remaining_time.as_secs() == 0 {
             score_value += 1;
             current_streak += 1;
-            highscore_value += 1;
+            if current_streak > highscore_value {
+                highscore_value += 1;
+            }
             return ("win".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak, highscore_value, tm);
         }
 

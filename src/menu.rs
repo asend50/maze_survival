@@ -4,9 +4,9 @@ use crate::modules::preload_image::TextureManager;
 
 pub async fn run(junoscary: i32, haruscary: i32, louisscary :i32, score: i32, streak: i32, highscore: i32, tm: TextureManager) -> (String, i32, i32, i32, i32, i32, i32, TextureManager) {
 
-let borderblue = Color::from_hex(0x8FDFFF);
-let textblue = Color::from_hex(0x005275);
-let backgroundblue = Color::from_hex(0xCCF4FF);
+let borderblue = Color::from_hex(0x28708f);
+let backgroundblue = Color::from_hex(0x005275);
+let textblue = Color::from_hex(0xd3f2ff);
 
 
 
