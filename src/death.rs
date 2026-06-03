@@ -59,15 +59,7 @@ pub async fn run(junoscary_value: i32, haruscary_value: i32, louisscary_value :i
         1.0,    // Normal zoom (100%)
     ).await;
     
-
-    loop {
-        clear_background(backgroundred);
-
-        lbl_score.set_text(&format!("Wins: {}", score_value));
-        lbl_streak.set_text(&format!("Streak: {}", current_streak));
-        lbl_highscore.set_text(format!("Highscore: {}", highscore_value));
-
-        if junoscary_value == 1 {
+    if junoscary_value == 1 {
             img_junoscary.set_image("assets/junoscary.png").await;
             lbl_death.set_text("You died to Juno..");
         }
@@ -82,6 +74,15 @@ pub async fn run(junoscary_value: i32, haruscary_value: i32, louisscary_value :i
             lbl_death.set_text("You died to Louis..");
         }
 
+
+    loop {
+        clear_background(backgroundred);
+
+        lbl_score.set_text(&format!("Wins: {}", score_value));
+        lbl_streak.set_text(&format!("Streak: {}", current_streak));
+        lbl_highscore.set_text(format!("Highscore: {}", highscore_value));
+
+        
 
        
         

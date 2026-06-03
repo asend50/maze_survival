@@ -1,8 +1,8 @@
+
 use macroquad::prelude::*;
 use crate::modules::still_image::StillImage;
 use crate::modules::collision::check_collision;
 use crate::modules::label::Label;
-use std::time::Duration;
 use crate::modules::preload_image::TextureManager;
 
 pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, streak: i32, highscore: i32, tm: TextureManager) -> (String, i32, i32, i32, i32, i32, i32, TextureManager) {
@@ -88,9 +88,10 @@ pub async fn run(junoscary: i32, haruscary: i32, louisscary: i32, score: i32, st
     let mut louisx = 0.0;
     let mut louisy = 0.0;
 
-    let start_time = std::time::Instant::now();
-    let duration = Duration::from_secs(60); // 60 seconds
-
+    //let start_time = std::time::Instant::now();
+    //let duration = Duration::from_secs(60); // 60 seconds
+    
+    let start_t = get_time();
     loop {
         clear_background(WHITE);
         draw_text("Game", 20.0, 40.0, 30.0, WHITE);
@@ -327,7 +328,6 @@ let mut louis_pos = louis.pos();
             louisy = 0.0;
         }
 
-
         louis_pos.y += louisy;
         louis_pos.x += louisx;
         louis.set_position(louis_pos);
@@ -337,15 +337,12 @@ let mut louis_pos = louis.pos();
             let junoscary_value = 1;
             let current_streak = 0;
             return ("death".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak, highscore_value, tm);
-
             }
 
         if check_collision(&legoshi, &haru, 1) {
             let haruscary_value = 1;
             let current_streak = 0;
             return ("death".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak, highscore_value, tm);
-
-
             }
 
         if check_collision(&legoshi, &louis, 1) {
@@ -356,27 +353,21 @@ let mut louis_pos = louis.pos();
                 highscore_value = score_value;
             }
             return ("death".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak, highscore_value, tm);
-
-
             }
 
 // timer
-let elapsed_time = start_time.elapsed();
-        let remaining_time = duration - elapsed_time;
-        if remaining_time.as_secs() == 0 {
-            score_value += 1;
-            current_streak += 1;
-            if current_streak > highscore_value {
-                highscore_value += 1;
-            }
-            return ("win".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak, highscore_value, tm);
-        }
+let current_time = get_time() - start_t;
 
-        let seconds = remaining_time.as_secs() % 60;
-        let minutes = remaining_time.as_secs() / 60;
-        lbl_timer.set_text(format!("{}:{:02}", minutes, seconds));
+ lbl_timer.set_text(format!("{:.2}", current_time));
 
-
+ if get_time() - start_t >= 60.0 {
+    score_value += 1;
+    current_streak += 1;
+if current_streak > highscore_value {
+    highscore_value += 1;
+    }
+    return ("win".to_string(), junoscary_value, haruscary_value, louisscary_value, score_value, current_streak, highscore_value, tm);
+}
 
         background.draw();
         legoshi.draw();
